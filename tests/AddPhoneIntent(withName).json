@@ -1,0 +1,32 @@
+{
+  "session": {
+    "sessionId": "SessionId.5333c830-a0d7-48a2-9327-5046397ea213",
+    "application": {
+      "applicationId": "amzn1.ask.skill.c2cc92cd-a488-4ab7-bbdf-00ac219a0e90"
+    },
+    "attributes": {
+      "recipientName": "Jeff",
+      "STATE": "_ADDNAME"
+    },
+    "user": {
+      "userId": "amzn1.ask.account.AHCG3XYQDIZNAALBXF6HQCJF4KILP4V7KTA3FJOAVZMXYRF4ECOLPAJQQQFPK7CVSNPS7R3KG224SXQC7JOMSRIVIBHCFMFRFIBMT4UXKIVXYYVC2R4AEM27ZRKWTNRXKNQFTRXGYRPUZ4KIU3PAOJ3JEKX2QNZQXKY3GHJ7YKKZP5ODXMOSCV3C3RNNSES4SRWPLKOTPLZSRVY"
+    },
+    "new": false
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.eb4da368-25cb-4f4e-97f1-a384c901c5ff",
+    "locale": "en-US",
+    "timestamp": "2017-01-11T14:49:20Z",
+    "intent": {
+      "name": "AddPhoneIntent",
+      "slots": {
+        "phonenumber": {
+          "name": "phonenumber",
+          "value": "6143275066"
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
