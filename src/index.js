@@ -4,7 +4,7 @@ const AWS = require('aws-sdk');
 
 const SNS = new AWS.SNS({ apiVersion: '2010-03-31' });
 const PHONE_NUMBER = '16143275066'; // change it to your phone number
-const D = "-------------------------------------------------------------------------------------------------------------------";
+const D = "-------------------------------------------------------------------------------------------";
 
 var recipientName;
 var recipientNumber;
@@ -18,87 +18,96 @@ var states = {
 
 var sessionHandlers = {
     "LaunchRequest": function() {
-        console.log(D + "LAUNCH REQUEST RECEIVED.");
+        console.log(D + "LAUNCH REQUEST");
+        //USER LAUNCHED THE SKILL.  CHANGE THEIR STATE, AND MOVE THEM TO THE BEGININTENT FUNCTION.
         this.handler.state = states.ADDNAME;
         this.emitWithState("BeginIntent");
     },
     "AddPhoneIntent": function () {
-        //THEY ARE TRYING TO ONE-SHOT TO THE PHONE NUMBER.  MOVE THEM THERE.
-        console.log(D + "ONE-SHOT FOR PHONE.  MOVING THERE.");
         this.handler.state = states.ADDPHONE;
         this.emitWithState('AddPhoneIntent');
     },
     "AddNameIntent": function () {
-        //THEY ARE TRYING TO ONE-SHOT TO THE NAME.  MOVE THEM THERE.
-        console.log(D + "ONE-SHOT FOR NAME.  MOVING THERE.")
         this.handler.state = states.ADDNAME;
         this.emitWithState('AddNameIntent');
     },
     "AMAZON.HelpIntent": function() {
-        console.log(D + "HELP INTENT REQUESTED.");
+        console.log(D + "HELP INTENT WITH NO STATE.");
+        this.emit(":ask", getRandomString(this.t("HELP_MESSAGE")));
     },
     "AMAZON.StopIntent": function() {
-        console.log(D + "STOP INTENT REQUESTED.");
+        console.log(D + "STOP INTENT WITH NO STATE");
+        this.emit(":tell", getRandomString(this.t("STOP_MESSAGE")));
     },
     "AMAZON.CancelIntent": function() {
-        console.log(D + "CANCEL INTENT REQUESTED.");
+        console.log(D + "CANCEL INTENT WITH NO STATE.");
+        this.emit(":tell", getRandomString(this.t("STOP_MESSAGE")));
     },
     "Unhandled": function() {
-        console.log(D + "UNHANDLED INTENT DETECTED.");
-        this.emit(":tell", "This was unhandled with NO state.");
+        console.log(D + "UNHANDLED INTENT WITH NO STATE.");
+        this.handler.state = states.ADDNAME;
+        this.emitWithState("BeginIntent");
     }
 }
 
 var sessionHandlersForName = Alexa.CreateStateHandler(states.ADDNAME,{
     "BeginIntent": function() {
-        this.emit(":ask", "Welcome to Send To Friend!  You can send SMS messages to your friends with this skill.  Who would you like to send a message to?");
-        //TODO: WHAT IF THEY HAD ALREADY STARTED THIS PROCESS?  SHOULD WE RESUME OR START OVER?
-        //TODO: WHAT IF THEY HAVE ALREADY SAVED A CONTACT?  WE SHOULD ASK THEM IF THEY WANT TO USE AN EXISTING CONTACT.
+        console.log(D + "BEGIN INTENT WITH ADD NAME STATE.");
+        //INITIAL MESSAGE FROM THE SKILL, WELCOMING THE USER, AND ASKING WHO THEY WANT TO SEND A MESSAGE TO.
+        this.emit(":ask", getRandomString(this.t("WELCOME_MESSAGE")), getRandomString(this.t("WELCOME_MESSAGE")));
     },
     "AddNameIntent": function() {
-        console.log(D + "STATE: ADDNAME - AddNameIntent REQUESTED.");
+        console.log(D + "ADD NAME INTENT WITH ADD NAME STATE.");
+        //WHEN THE USER PROVIDES A NAME, THIS INTENT CATCHES AND SAVES THAT NAME BEFORE PROMPTING FOR A PHONE NUMBER.
         if (this.event.request.intent.slots.firstname !== undefined)
         {
             var firstname = this.event.request.intent.slots.firstname.value;
-            console.log(D + "RECIEVED THE NAME: " + firstname);
             this.attributes["recipientName"] = firstname;
-            console.log(D + "SAVED " + firstname + " TO DYNAMODB");
-            this.emit(":ask", "Got it.  I heard " + firstname + ".  Is that correct?");
+            console.log(D + "RECEIVED THE RECIPIENT NAME: " + firstname);
+            //TODO: WHAT IF THEY HAVE ALREADY SAVED A CONTACT?  WE SHOULD ASK THEM IF THEY WANT TO USE AN EXISTING CONTACT.
+            this.emit(":ask", getRandomStringWithReplace(this.t("NAME_CONFIRMATION"), this.attributes["recipientName"]), getRandomStringWithReplace(this.t("NAME_CONFIRMATION"), this.attributes["recipientName"]));
         }
         else
         {
-            this.emit(":ask", "I'm sorry.  What is the name of the person you're trying to send a message to?", "I'm sorry.  What is the name of the person you're trying to send a message to?");
+            console.log(D + "DID NOT RECEIVE A NAME VALUE.");
+            //IF WE LANDED HERE WITHOUT A NAME VALUE, APOLOGIZE, AND ASK AGAIN.
+            this.emit(":ask", getRandomString(this.t("NAME_MISUNDERSTANDING")), getRandomString(this.t("NAME_MISUNDERSTANDING")));
         }
     },
     "AddPhoneIntent": function () {
+        console.log(D + "ADD PHONE INTENT WITH ADD NAME STATE.");
         //LANDED HERE WITH THE WRONG STATE.  CHANGING STATE, MOVING THEM THERE.
-        console.log(D + "ADDPHONEINTENT WITH ADDNAME STATE.  REASSIGNING TO ADDPHONE STATE.");
         this.handler.state = states.ADDPHONE;
         this.emitWithState('AddPhoneIntent');
+    },
+    "AMAZON.HelpIntent": function()
+    {
+        console.log(D + "HELP INTENT WITH ADD NAME STATE.");
+        this.emit(":ask", getRandomString(this.t("HELP_MESSAGE")));
     },
     "AMAZON.YesIntent": function()
     {
         console.log("YES INTENT WITH ADDNAME STATE");
         this.handler.state = states.ADDPHONE;
-        this.emit(":ask", "Perfect. What is " + this.attributes["recipientName"] + "'s mobile phone number?");
+        this.emit(":ask", getRandomStringWithReplace(this.t("PHONE_REQUEST"), this.attributes["recipientName"]));
     },
     "AMAZON.NoIntent": function()
     {
         console.log("NO INTENT WITH ADDNAME STATE");
-        this.emit(":ask", "Oops.  I'm sorry.  I must have misheard you.  What is the name of the person you'd like to send a message to?", "I didn't catch that.  Who do you want to send a message to?");
+        this.emit(":ask", getRandomString(this.t("NAME_MISUNDERSTANDING")));
     },
     "AMAZON.CancelIntent": function()
     {
-        console.log(D + "CANCEL INTENT DETECTED IN ADDNAME STATE.");
-        this.emit(":tell", "You said cancel with ADDNAME state. Goodbye!");
+        console.log(D + "CANCEL INTENT WITH ADD NAME STATE.");
+        this.emit(":tell", getRandomString(this.t("STOP_MESSAGE")));
     },
     "AMAZON.StopIntent": function() {
-        console.log(D + "STOP INTENT REQUESTED.");
-        this.emit(":tell", "You said STOP with ADDNAME state. Goodbye!");
+        console.log(D + "STOP INTENT WITH ADD NAME STATE.");
+        this.emit(":tell", getRandomString(this.t("HELP_MESSAGE")));
     },
     "Unhandled": function() {
-        console.log(D + "UNHANDLED INTENT DETECTED IN ADDNAME STATE.");
-        this.emit(":tell", "This was unhandled with ADD NAME state.");
+        console.log(D + "UNHANDLED INTENT WITH ADD NAME STATE.");
+        this.emit("AMAZON.HelpIntent");
     },
 });
 
@@ -106,7 +115,7 @@ var sessionHandlersForPhone = Alexa.CreateStateHandler(states.ADDPHONE,{
     "AddPhoneIntent": function() {
         console.log(D + "STATE: ADDPHONE - AddPhoneIntent REQUESTED.");
         var phonenumber = this.event.request.intent.slots.phonenumber.value;
-        var phonenumberspeech = "<say-as interpret-as='spell-out'>" + phonenumber.substring(0,3) + "</say-as><break strength='strong'></break><say-as interpret-as='spell-out'>" + phonenumber.substring(3,6) + "</say-as><break strength='strong'></break><say-as interpret-as='spell-out'>" + phonenumber.substring(6,10) + "</say-as>";
+        var phonenumberspeech = buildPhoneNumberSpeech(phonenumber);
         //TODO: DETERMINE IF THE PHONE NUMBER IS A VALID LENGTH.
         if (phonenumber.length == 10)
         {
@@ -139,11 +148,11 @@ var sessionHandlersForPhone = Alexa.CreateStateHandler(states.ADDPHONE,{
     "AMAZON.CancelIntent": function()
     {
         console.log(D + "CANCEL INTENT DETECTED IN ADDPHONE STATE.");
-        this.emit(":tell", "You said cancel with ADDPHONE state. Goodbye!");
+        this.emit(":tell", getRandomString(this.t("STOP_MESSAGE")));
     },
     "AMAZON.StopIntent": function() {
         console.log(D + "STOP INTENT REQUESTED.");
-        this.emit(":tell", "You said STOP with ADDPHONE state. Goodbye!");
+        this.emit(":tell", getRandomString(this.t("STOP_MESSAGE")));
     },
     "Unhandled": function() {
         console.log(D + "UNHANDLED INTENT DETECTED IN ADDPHONE STATE.");
@@ -286,10 +295,86 @@ function deleteFavorite()
     }
 }
 */
+function getRandomString(stringArray)
+{
+    var arrayIndex = Math.floor(Math.random() * stringArray.length);
+    return stringArray[arrayIndex];
+}
+
+function getRandomStringWithReplace(stringArray, replacement)
+{
+    var response = getRandomString(stringArray);
+    return response.replace("XXXXXXXXXX", replacement);
+}
+
+function buildPhoneNumberSpeech(phonenumber)
+{
+    return "<say-as interpret-as='spell-out'>" + phonenumber.substring(0,3) + "</say-as><break strength='strong'></break><say-as interpret-as='spell-out'>" + phonenumber.substring(3,6) + "</say-as><break strength='strong'></break><say-as interpret-as='spell-out'>" + phonenumber.substring(6,8) + "</say-as><break strength='strong'></break><say-as interpret-as='spell-out'>" + phonenumber.substring(8,10) + "</say-as>";
+}
+
 exports.handler = (event, context) => {
     var alexa = Alexa.handler(event, context);
     alexa.appId = undefined;
     alexa.dynamoDBTableName = "SendToFriend";
+    alexa.resources = languageStrings;
     alexa.registerHandlers(sessionHandlers, sessionHandlersForName, sessionHandlersForPhone, sessionHandlersForContact, sessionHandlersForMessage);
     alexa.execute();
+};
+
+var languageStrings = {
+    "en-GB": {
+        "translation": {
+            "WELCOME_MESSAGE" : [       "Welcome to Send To Friend!  You can send SMS messages to your friends with this skill.  Who would you like to send a message to?",
+                                        "This is Send to Friend!  Who would you like to send an SMS message to?",
+                                        "To whom would you like to send a message on this fine day?"],
+            "NAME_CONFIRMATION" : [     "XXXXXXXXXX<break strength='strong'></break>Is that correct?",
+                                        "XXXXXXXXXX<break strength='strong'></break>Got it.  Did I say it right?",
+                                        "XXXXXXXXXX<break strength='strong'></break>Is that right?",
+                                        "OK.  We're sending a message to XXXXXXXXXX.  Is that correct?"],
+            "NAME_MISUNDERSTANDING":[   "I'm sorry.  What is the name of the person you're trying to send a message to?",
+                                        "Whoops.  My mistake.  Which name did you want to use?",
+                                        "My bad.  Still learning.  Who do you want to send a message to?"],
+            "GET_FACT_MESSAGE" : "Here's your fact: ",
+            "HELP_MESSAGE" : "You can say tell me a space fact, or, you can say exit... What can I help you with?",
+            "HELP_REPROMPT" : "What can I help you with?",
+            "STOP_MESSAGE" : [          "Goodbye!", "OK.  We can try again some other time.", "Bye bye!"]
+        }
+    },
+    "en-US": {
+        "translation": {
+            "WELCOME_MESSAGE" : [       "Welcome to Send To Friend!  You can send SMS messages to your friends with this skill.  Who would you like to send a message to?",
+                                        "This is Send to Friend!  Who would you like to send an SMS message to?",
+                                        "To whom would you like to send a message on this fine day?"],
+            "NAME_CONFIRMATION" : [     "XXXXXXXXXX<break strength='strong'/>Is that correct?",
+                                        "XXXXXXXXXX<break strength='strong'/>Got it.  Did I say it right?",
+                                        "XXXXXXXXXX<break strength='strong'/>Is that right?",
+                                        "OK.  We're sending a message to XXXXXXXXXX.  Is that correct?"],
+            "NAME_MISUNDERSTANDING":[   "I'm sorry.  What is the name of the person you're trying to send a message to?",
+                                        "Whoops.  My mistake.  Which name did you want to use?",
+                                        "My bad.  Still learning.  Who do you want to send a message to?"],
+            "PHONE_REQUEST" : [         "Perfect. What is XXXXXXXXXX's mobile phone number?",
+                                        "Which mobile phone number do you want to use for XXXXXXXXXX?",
+                                        "What mobile number should I use to send a message to XXXXXXXXXX?"],
+            "HELP_MESSAGE" : "You can say tell me a space fact, or, you can say exit... What can I help you with?",
+            "HELP_REPROMPT" : "What can I help you with?",
+            "STOP_MESSAGE" : [          "Goodbye!", "OK.  We can try again some other time.", "Bye bye!"]
+        }
+    },
+    "de-DE": {
+        "translation": {
+            "WELCOME_MESSAGE" : [       "Welcome to Send To Friend!  You can send SMS messages to your friends with this skill.  Who would you like to send a message to?",
+                                        "This is Send to Friend!  Who would you like to send an SMS message to?",
+                                        "To whom would you like to send a message on this fine day?"],
+            "NAME_CONFIRMATION" : [     "XXXXXXXXXX<break strength='strong'></break>Is that correct?",
+                                        "XXXXXXXXXX<break strength='strong'></break>Got it.  Did I say it right?",
+                                        "XXXXXXXXXX<break strength='strong'></break>Is that right?"],
+            "NAME_MISUNDERSTANDING":[   "I'm sorry.  What is the name of the person you're trying to send a message to?",
+                                        "Whoops.  My mistake.  Which name did you want to use?",
+                                        "My bad.  Still learning.  Who do you want to send a message to?"],
+            "GET_FACT_MESSAGE" : "Hier sind deine Fakten: ",
+            "HELP_MESSAGE" : "Du kannst sagen, „Nenne mir einen Fakt über den Weltraum“, oder du kannst „Beenden“ sagen... Wie kann ich dir helfen?",
+            "HELP_REPROMPT" : "Wie kann ich dir helfen?",
+            "STOP_MESSAGE" : [          "Goodbye!", "OK.  We can try again some other time.", "Bye bye!"]
+        }
+    }
 };
