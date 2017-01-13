@@ -6,9 +6,6 @@ const SNS = new AWS.SNS({ apiVersion: '2010-03-31' });
 const PHONE_NUMBER = '16143275066'; // change it to your phone number
 const D = "-------------------------------------------------------------------------------------------";
 
-var recipientName;
-var recipientNumber;
-
 var states = {
     ADDUSER: '_ADDUSER',
     ADDNAME: '_ADDNAME',
@@ -254,16 +251,28 @@ var sessionHandlersForMessage = Alexa.CreateStateHandler(states.SENDMESSAGE,{
         this.emit(":tell", "We have gotten this far, and you want to quit?  OK.  Goodbye!");
     },
     "ReminderMessageIntent": function() {
-        
         if (this.event.request.intent.slots.noun.value !== undefined)
         {
             var noun = this.event.request.intent.slots.noun.value;
-            var imageObj = {    smallImageUrl720x480: "",
-                                largeImageUrl1200x800: ""};
-            var speechOutput = getRandomStringWithReplace(this.t("MESSAGE_SENT"), this.attributes["recipientName"]) + "<break strength='strong'></break>" + getRandomStringWithReplace(this.t("REMINDER_MESSAGE"), noun);
-            var textOutput = speechOutput.replace("<break strength='strong'></break>", " ");
-            this.emit(":tellWithCard", speechOutput, "Message Sent To " + this.attributes["recipientName"], textOutput, imageObj);
-            this.emit(":tell", );
+            var imageObj = {    smallImageUrl: reminderImageUrlSmall,
+                                largeImageUrl: "https://raw.githubusercontent.com/jeffblankenburg/SendToFriend/master/images/reminder1200x800.png"};
+            var messageOutput = getRandomStringWithReplace(this.t("REMINDER_MESSAGE"), noun) + "   From, " + this.attributes["senderName"];
+            var speechOutput = getRandomStringWithReplace(this.t("MESSAGE_SENT"), this.attributes["recipientName"]) + "<break strength='strong'/>" + messageOutput + "<break strength='x-strong'/>Thanks for using Send To Friend! Goodbye!";
+            var textOutput = speechOutput.replace("<break strength='strong'/>", " ");
+            var params = {PhoneNumber: "1" + this.attributes["recipientNumber"], Message: messageOutput};
+            var parentOfThis = this;
+            SNS.publish(params, function(err, data)
+            {
+                if (err)
+                {
+                    console.log(err.stack);
+                    parentOfThis.emit(":ask", "Something happened while I was sending that text message.  Would you like to try again?");
+                }
+                else
+                {
+                    parentOfThis.emit(":tellWithCard", speechOutput, "Message Sent To " + parentOfThis.attributes["recipientNumber"], textOutput, imageObj);
+                }
+            });
         }
         else
         {
@@ -377,7 +386,7 @@ function getRandomStringWithReplaceTwo(stringArray, replacement, replacement2)
 {
     var response = getRandomString(stringArray);
     response = response.replace("XXXXXXXXXX", replacement);
-    return response.replace("YYYYYYYYYY", replacement2)
+    return response.replace("YYYYYYYYYY", replacement2);
 }
 
 function buildPhoneNumberSpeech(phonenumber)
@@ -385,9 +394,28 @@ function buildPhoneNumberSpeech(phonenumber)
     return "<say-as interpret-as='spell-out'>" + phonenumber.substring(0,3) + "</say-as><break strength='strong'></break><say-as interpret-as='spell-out'>" + phonenumber.substring(3,6) + "</say-as><break strength='strong'></break><say-as interpret-as='spell-out'>" + phonenumber.substring(6,8) + "</say-as><break strength='strong'></break><say-as interpret-as='spell-out'>" + phonenumber.substring(8,10) + "</say-as>";
 }
 
+function sendTextMessage(phonenumber, messageContent)
+{
+    console.log("number: " + "1" + phonenumber + " message: " + messageContent);
+    var params = {PhoneNumber: "1" + phonenumber, Message: messageContent};
+            
+    SNS.publish(params, function(err, data)
+    {
+        if (err)
+        {
+            console.log(err.stack);
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    });
+}
+
 exports.handler = (event, context) => {
     var alexa = Alexa.handler(event, context);
-    alexa.appId = undefined;
+    alexa.appId = "amzn1.ask.skill.c2cc92cd-a488-4ab7-bbdf-00ac219a0e90";
     alexa.dynamoDBTableName = "SendToFriend";
     alexa.resources = languageStrings;
     //alexa.registerHandlers(sessionHandlers, sessionHandlersForName, sessionHandlersForPhone, sessionHandlersForContact, sessionHandlersForMessage);
@@ -505,3 +533,6 @@ var languageStrings = {
         }
     }
 };
+
+var reminderImageUrlSmall = "https://raw.githubusercontent.com/jeffblankenburg/SendToFriend/master/images/reminder720x400.png";
+var reminderImageUrlLarge = "https://raw.githubusercontent.com/jeffblankenburg/SendToFriend/master/images/reminder1200x800.png";
