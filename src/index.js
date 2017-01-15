@@ -3,7 +3,6 @@ var Alexa = require('alexa-sdk');
 const AWS = require('aws-sdk');
 
 const SNS = new AWS.SNS({ apiVersion: '2010-03-31' });
-const PHONE_NUMBER = '16143275066'; // change it to your phone number
 const D = "-------------------------------------------------------------------------------------------";
 
 var states = {
@@ -302,6 +301,11 @@ var sessionHandlersForMessage = Alexa.CreateStateHandler(states.SENDMESSAGE,{
             var speechOutput = speechPrefix + "<break strength='strong'/>" + messageOutput + "<break strength='x-strong'/>Thanks for using Send To Friend! Goodbye!";
             var textOutput = speechPrefix + " " + messageOutput + " Thanks for using Send To Friend! Goodbye!";
             var params = {PhoneNumber: "1" + this.attributes["recipientNumber"], Message: messageOutput};
+            
+
+            SNS.publish(params, function(err,data){});
+            this.emit(":tellWithCard", speechOutput, "Message Sent To " + this.attributes["recipientName"] + " (" + this.attributes["recipientNumber"] + ")", textOutput, imageObj);
+            /*
             var parentOfThis = this;
             SNS.publish(params, function(err, data)
             {
@@ -313,6 +317,7 @@ var sessionHandlersForMessage = Alexa.CreateStateHandler(states.SENDMESSAGE,{
                     parentOfThis.emit(":tellWithCard", speechOutput, "Message Sent To " + parentOfThis.attributes["recipientName"] + " (" + parentOfThis.attributes["recipientNumber"] + ")", textOutput, imageObj);
                 }
             });
+            */
         }
         else
         {
@@ -429,6 +434,7 @@ function getRandomString(stringArray)
 {
     console.log("GETTING RANDOM STRING.");
     var arrayIndex = Math.floor(Math.random() * stringArray.length);
+    console.log(stringArray[arrayIndex]);
     return stringArray[arrayIndex];
 }
 
@@ -436,6 +442,7 @@ function getRandomStringWithReplace(stringArray, replacement)
 {
     console.log("GETTING RANDOM STRING WITH REPLACE.");
     var response = getRandomString(stringArray);
+    console.log(response.replace("XXXXXXXXXX", replacement));
     return response.replace("XXXXXXXXXX", replacement);
 }
 
@@ -444,6 +451,7 @@ function getRandomStringWithReplaceTwo(stringArray, replacement, replacement2)
     console.log("GETTING RANDOM STRING WITH REPLACE TWO.")
     var response = getRandomString(stringArray);
     response = response.replace("XXXXXXXXXX", replacement);
+    console.log(response.replace("YYYYYYYYYY", replacement2));
     return response.replace("YYYYYYYYYY", replacement2);
 }
 
