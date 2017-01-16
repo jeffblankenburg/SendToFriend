@@ -305,9 +305,12 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 
 5. You will definitely notice that some of the responses have "XXXXXXXXXX" or "YYYYYYYYYY" in them.  We built this as a way to easily collect all of your strings in one place, but also insert some of the data the user provides into those strings.  For example, one of the USER_CONFIRMATION strings is "Perfect.  I heard your name as XXXXXXXXXX.  Is that right?"  The code earlier in our Lambda function will look for a string of 10 Xs and replace them with the name that the user provides to us.  The same goes for phone numbers, recipient names, etc.
 
-6. Once you have successfully updated all of your strings, scroll back to the top of the page and select “Save”.
+6. The final change you need to make relates to the cards that get created when a user sends a message.  Each of these cards has two images associated with it.  You need one image that is 1200x800 pixels, and one that is 720x400 for each message type.  These images also need to be hosted somewhere on the internet where they can be publicly available.  You can change each of these images in the variables immediately below all of the response strings you've been working on.
+   ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/images._TTH_.png)
+
+7. Once you have successfully updated all of your strings, scroll back to the top of the page and select “Save”.
  
-7. Repeat the tests you performed earlier to ensure your changes are functioning properly. See Step #4 for a review of how to perform functional tests.
+8. Repeat the tests you performed earlier to ensure your changes are functioning properly. See Step #4 for a review of how to perform functional tests.
 
 ## Step 6: Publish Your Skill
 
