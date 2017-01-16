@@ -285,23 +285,23 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 3.  You will notice that there are three different strings for each type of response.  This is done so that Alexa can vary her responses to the user.  Each time that Alexa needs to respond to the user, she will select one of the appropriate values at random from the list.  You should definitely expand her response list to make her responses even more conversational.
 
 4.  To clarify each of the response types, here's a quick guide:
-    * USER_REQUEST: This welcomes the user to the skill, and prompts them for their first name.
-    * USER_CONFIRMATION: This message repeats the user's name back to them, to make sure that she heard it correctly.
-    * NAME_REQUEST: This repeats the user's name, and asks for the name of the person they are sending a message to.
-    * NAME_CONFIRMATION: This repeats the intended recipient's name back to the user, asking for confirmation that Alexa heard it correctly.
-    * NAME_MISUNDERSTANDING: If Alexa got the name wrong, she apologizes, and then asks for the name again.
-    * PHONE_REQUEST: This asks the user for the mobile phone number that the message should be sent to.
-    * PHONE_CONFIRMATION: Alexa repeats the phone number back to the user, and confirms that it is correct.
-    * PHONE_MISUNDERSTANDING: When a user provides a value that is not 10 digits (the format of a US-based mobile phone number), she repeats the number, and asks the user to say the number again.
-    * PHONE_RETRY: If the user indicates that the phone number was received incorrectly, Alexa apologizes and asks for it again.
-    * MESSAGE_SENT: This is confirmation to the user that a message has been sent to their intended user.  This is paired with an option from one of the next four categories that the user selected.
-    * REMINDER_MESSAGE: These are messages meant to remind the recipient about something that the user indicated.  This uses the data from our custom slot we called "noun" earlier.
-    * LOVE_MESSAGE: These are messages to communicate that the user was thinking about someone they love.
-    * MISSYOU_MESSAGE: These are messages to communicated that the user misses the recipient.
-    * HELLO_MESSAGE: These are messages to send a friendly "Hello" message to their recipient. 
-    * HELP_MESSAGE: This is message the user will hear when they ask for help.  It tells them what they can do, and prompts them to say "Start Over" or "Quit."
-    * UNHANDLED_MESSAGE: If the user somehow tries something that isn't handled, this is the message they will receive.  Similar to help, it asks them to "Start Over" or "Quit."
-    * STOP_MESSAGE: When a user indicates that they want our skill to stop, this should be a very brief message saying goodbye.
+    * **USER_REQUEST**: This welcomes the user to the skill, and prompts them for their first name.
+    * **USER_CONFIRMATION**: This message repeats the user's name back to them, to make sure that she heard it correctly.
+    * **NAME_REQUEST**: This repeats the user's name, and asks for the name of the person they are sending a message to.
+    * **NAME_CONFIRMATION**: This repeats the intended recipient's name back to the user, asking for confirmation that Alexa heard it correctly.
+    * **NAME_MISUNDERSTANDING**: If Alexa got the name wrong, she apologizes, and then asks for the name again.
+    * **PHONE_REQUEST**: This asks the user for the mobile phone number that the message should be sent to.
+    * **PHONE_CONFIRMATION**: Alexa repeats the phone number back to the user, and confirms that it is correct.
+    * **PHONE_MISUNDERSTANDING**: When a user provides a value that is not 10 digits (the format of a US-based mobile phone number), she repeats the number, and asks the user to say the number again.
+    * **PHONE_RETRY**: If the user indicates that the phone number was received incorrectly, Alexa apologizes and asks for it again.
+    * **MESSAGE_SENT**: This is confirmation to the user that a message has been sent to their intended user.  This is paired with an option from one of the next four categories that the user selected.
+    * **REMINDER_MESSAGE**: These are messages meant to remind the recipient about something that the user indicated.  This uses the data from our custom slot we called "noun" earlier.
+    * **LOVE_MESSAGE**: These are messages to communicate that the user was thinking about someone they love.
+    * **MISSYOU_MESSAGE**: These are messages to communicated that the user misses the recipient.
+    * **HELLO_MESSAGE**: These are messages to send a friendly "Hello" message to their recipient. 
+    * **HELP_MESSAGE**: This is message the user will hear when they ask for help.  It tells them what they can do, and prompts them to say "Start Over" or "Quit."
+    * **UNHANDLED_MESSAGE**: If the user somehow tries something that isn't handled, this is the message they will receive.  Similar to help, it asks them to "Start Over" or "Quit."
+    * **STOP_MESSAGE**: When a user indicates that they want our skill to stop, this should be a very brief message saying goodbye.
 
 5. You will definitely notice that some of the responses have "XXXXXXXXXX" or "YYYYYYYYYY" in them.  We built this as a way to easily collect all of your strings in one place, but also insert some of the data the user provides into those strings.  For example, one of the USER_CONFIRMATION strings is "Perfect.  I heard your name as XXXXXXXXXX.  Is that right?"  The code earlier in our Lambda function will look for a string of 10 Xs and replace them with the name that the user provides to us.  The same goes for phone numbers, recipient names, etc.
 
