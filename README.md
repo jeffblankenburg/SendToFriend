@@ -1,24 +1,27 @@
-#How To Build a City Guide for Alexa
+#How To Build an SMS Messaging Skill for Alexa
 
-We all have our favorite places.  It may be your childhood hometown, an exotic place you've visited, or even your college town.  Regardless of why a city is your favorite, we all have our favorite sports to visit and want to tell others about, and that's exactly what this new skill template helps you do.
+Wouldn't it be great to send a message to a friend or family member when you're thinking of them?  Or maybe you just want to remind them to grab some milk on the way home from the gym?  This new Alexa skill template helps you to build something that does exactly that.
 
-This new template uses [AWS Lambda](https://aws.amazon.com/lambda/), the [Alexa Skills Kit (ASK)](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit), and the [ASK SDK](https://developer.amazon.com/public/community/post/Tx213D2XQIYH864/Announcing-the-Alexa-Skills-Kit-for-Node-js), in addition to the [New York Times Article Search API](https://developer.nytimes.com) for news.  We provide the business logic, error handling, and help functions for your skill, you just need to provide the data and credentials.
+In addition to the tools that we always recommend for Alexa skill development ([AWS Lambda](https://aws.amazon.com/lambda/), [Alexa Skills Kit (ASK)](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit), [DynamoDB](https://aws.amazon.com/dynamodb/), and the [ASK SDK](https://developer.amazon.com/public/community/post/Tx213D2XQIYH864/Announcing-the-Alexa-Skills-Kit-for-Node-js)), we will also be introducing you to another Amazon Web Services technology: [Amazon Simple Notification Service (SNS)](https://aws.amazon.com/sns/).  We provide the business logic, error handling, and help functions for your skill, you just need to provide the data and credentials.
 
-For this example, we will be creating a skill for the city of Seattle, Washington.  The user of this skill will be able to ask things like:
+For this example, we will be general messaging skill that sends four kinds of messages to users: Reminders, Miss You, Love You, and Hello.  The user of this skill will be guided through a conversation to help them customize and send messages to their friends like these:
 
-   * “Alexa, ask Seattle Guide what there is to do.”
-   * “Alexa, ask Seattle Guide about the Space Needle.”
-   * “Alexa, ask Seattle Guide for the news.”
+   * “Wanted to send you a reminder about tacos!  From, Alice”
+   * “You just popped into my head...thought I'd reach out to say hello!  From, Steve”
+   * “I was just thinking about you, and wanted you to know I love you!  Love, Jeff”
 
-You will be able to use your own city in the sample provided, so that users can learn to love your location as much as you do!  This might also be a good opportunity to combine the knowledge from this template with our [Calendar Reader sample](https://github.com/alexa/skill-sample-nodejs-calendar-reader), so that you can provide information about the events in your town, as well as the best places to visit.
+You will be able to customize all of the messages that this skill can produce, so you can create your own themed messaging skill around your favorite TV shows, movies, or anything else that would make an interesting experience!
 
 After completing this tutorial, you'll know how to do the following:
-   * __Create a city guide skill__ - This tutorial will walk Alexa skills developers through all the required steps involved in creating a skill that shares information about a city, and can search for news about that location.
+   * __Create a messaging skill__ - This tutorial will walk Alexa skills developers through all the required steps involved in creating a skill that sends SMS messages.
    * __Understand the basics of VUI design__ - Creating this skill will help you understand the basics of creating a working Voice User Interface (VUI) while using a cut/paste approach to development. You will learn by doing, and end up with a published Alexa skill. This tutorial includes instructions on how to customize the skill and submit for certification. For guidance on designing a voice experience with Alexa you can also [watch this video](https://goto.webcasts.com/starthere.jsp?ei=1087592).
    * __Use JavaScript/Node.js and the Alexa Skills Kit to create a skill__ - You will use the template as a guide but the customization is up to you. For more background information on using the Alexa Skills Kit please [watch this video](https://goto.webcasts.com/starthere.jsp?ei=1087595).
-   * __[Manage state](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs#making-skill-state-management-simpler) in an Alexa skill__ - Depending on the user's choices, we can handle intents differently.
+   * __[Manage state](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs#making-skill-state-management-simpler) in an Alexa skill__ - As the user moves through our skill, we modify their state to track their progress, and manage which intents should be executed based on that state.
+   * __DynamoDB integration__ - Because this skill behaves like a conversation, we also need to persist the user's data as we move through it.  DynamoDB provides an excellent (and easy) way to do this.
+   * __Intent handoffs__ - Sometimes, we want a user to complete a specific intent before they move on to the next one.  This sample skill provides several examples of using the emitWithState() function to move a user from one intent to another.
+   * __Response randomization__ - In order to simulate a real conversation, we also randomize all of Alexa's responses so that the skill doesn't appear to follow the same script every time.  The user goes through the same process each time, but what Alexa says varies with each experience.
+   * __Card creation__ In addition to sending a recipient an SMS message, we also create a nice visual card for our user as a reminder and confirmation of the message they sent in their Alexa app.
    * __Get your skill published__ - Once you have completed your skill, this tutorial will guide you through testing your skill and sending your skill through the certification process so it can be enabled by any Alexa user.  [You may even be eligible for some Alexa swag!](https://developer.amazon.com/alexa-skills-kit/alexa-developer-skill-promotion)
-   * __Interact with the Bing Search API__.
 
 Get started and build your first - or next - Alexa skill today.
 
@@ -41,7 +44,7 @@ Skills are managed through the Amazon Developer Portal. You’ll link the Lambda
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/add-a-new-skill.png)
  
 4.  There are several choices to make on this page, so we will cover each one individually.
-    1. Choose the language you want to start with.  You can go back and add all of this information for each language later, but for this tutorial, we are working with "English (U.S.)"
+    1. Choose the language you want to start with.  You can go back and add all of this information for each language later (this template is designed for US English, UK English, and German), but for this tutorial, we are working with "English (U.S.)"
     2. Make sure the radio button for the Custom Interaction Model is selected for “Skill Type”.
     3. Add the name of the skill. Give your skill a name that is simple and memorable, like "Seattle Guide." The name will be the one that shows up in the Alexa App (and now at [amazon.com/skills](https://www.amazon.com/skills)) when users are looking for new skills.  (Obviously, don't use Seattle Guide.  Use a name that describes the city you plan to use for your skill.)
     4. Add the invocation name. This is what your users will actually say to start using your skill. We recommend using only two or three words, because your users will have to say this every time they want to interact with your skill.
