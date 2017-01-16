@@ -271,7 +271,7 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 
 ## Step 5: Make it Yours
  
-1.  In the Skill Information section in the Developer Console, edit the Skill Information Tab to reflect your new city guide skill:
+1.  In the Skill Information section in the Developer Console, edit the Skill Information Tab to reflect your new messaging skill:
 
     1.  Provide a skill name that represents the new skill you are creating.
     2.  Come up with a cool Invocation Name that users will use to invoke your skill. [Make sure to read the rules for creating invocation names](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/choosing-the-invocation-name-for-an-alexa-skill), as this is a common failure point during certification.
@@ -345,7 +345,7 @@ Now we need to go back to our Developer Portal to test and edit our skill and we
 
     1.  On the Privacy and Compliance section, make sure to consider each answer.
         1.  Since our skill does not require purchases or spending of money, choose "No" for the first question.
-        2.  We are collecting personal information in this skill, when we ask for names and mobile phone numbers.  Answer yes for the second question.
+        2.  We are collecting personal information in this skill when we ask for names and mobile phone numbers.  Answer yes for the second question.
         3.  If your messaging skill is not directed to children under the age of 13 or is not intended to target children under the age of 13, choose ‘No’ for the third question as well.
         4.  Choose to certify that your skill can be imported to and exported from the countries and regions that you operate the skill.
         5.  Privacy and Terms URL’s are optional, but recommended.
