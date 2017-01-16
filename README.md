@@ -57,13 +57,15 @@ Skills are managed through the Amazon Developer Portal. You’ll link the Lambda
    
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/intent-schema._TTH_.png)
  
-6.  Review the Intent Schema below. This is written in JSON and provides the information needed to map the intents we want to handle programmatically.  Copy this from the intent schema in the [GitHub repository here](https://github.com/alexa/skill-sample-nodejs-city-guide/blob/master/speechAssets/intents.json).
+6.  Review the Intent Schema below. This is written in JSON and provides the information needed to map the intents we want to handle programmatically.  Copy this from the intent schema in the [GitHub repository here](https://github.com/alexa/skill-sample-nodejs-messaging/blob/master/speechAssets/intents.json).
     
-    Below you will see a collection of intents that we expect our users to indicate by voice.  They can ask for an overview of your city, they can ask about the Top Five attractions (in addition to asking for more information about those attractions), and they can ask for the news for your city. Intents can optionally have arguments called slots.
+    Below you will see a collection of intents that we expect our users to indicate by voice.  These are all mechanisms for collecting data from our user, but with this skill, there aren't multiple ways to enter this skill.  Each time the user starts the skill, they start at the beginning of the conversation, by saying something like:
+
+    "Alexa, open Send to Friend"
     
-    Slots are predefined data types that we expect the user to provide.  This is not a closed list (like an enum), so you must anticipate that you will receive values that are not in your slot value list..  For example, you could say "tell me about attraction number two," and it would be able to return a specific number to our skill's code.  This data also becomes training data for Alexa's Natural Language Understanding (NLU) engine.  You will see how this works more clearly when we define our sample utterances below.
+    To collect data from our users, we have to use slots.  Slots are predefined data types that we expect the user to provide.  This is not a closed list (like an enum), so you must anticipate that you will receive values that are not in your slot value list.  For example, when the user needs to provide a phone number, we can specify an AMAZON.NUMBER slot, and they can dictate a phone number to Alexa.  This data also becomes training data for Alexa's Natural Language Understanding (NLU) engine.  You will see how this works more clearly when we define our sample utterances below.
    
-    For the getMoreInfoIntent, the user will be providing a number, like "Tell me about attraction number one." [For more on the use of built-in intents, go here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/implementing-the-built-in-intents).
+    For the ReminderMessageIntent, the user will be providing something that they want to remind their contact about, like "Remind Tabitha about video games."  The value "video games" is one we want to capture from our user's statements.  For this, we use a custom slot, and populate it with as many nouns as we can provide.
 
     ```JSON
     {
@@ -85,37 +87,51 @@ Skills are managed through the Amazon Developer Portal. You’ll link the Lambda
     }
     ```
     
-    You can see that we have defined four different built-in intents: Yes, No, Help, and Repeat.  These are built-in intents that we can use for common commands our users will indicate.  
+    You can see that we have defined seven different built-in intents: Yes, No, Help, Stop, Cancel, Start Over and Repeat.  These are built-in intents that we can use for common commands our users will indicate.  [For more on the use of built-in intents, go here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/implementing-the-built-in-intents).
 
-7.  The next step is to build the utterance list.  This is meant to be a thorough, well-thought-out list of the ways users will try to interact with your skill.  You don't have to get every possible phrase, but it is important to cover a variety of utterances so that the Natural Language Understanding(NLU) engine can best interpret your user's intent.
+7.  Next, we need to define our custom slot that we called "noun."  To do this, click the "Add Slot Type" button.
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/add-new-slot._TTH_.png)
+
+8.  For the "Enter Type" box, type the word "noun."  For the "Enter Values" box, [copy the contents of this giant list of nouns](https://github.com/jeffblankenburg/SendToFriend/blob/master/speechAssets/noun_customslot.txt).  You can always add more to this list if there are words you want to support.
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/adding-slot-type._TTH_.png)
+    Make sure to click Save before moving to the next step.
+
+9.  The next step is to build the utterance list.  This is meant to be a thorough, well-thought-out list of the ways users will try to interact with your skill.  You don't have to get every possible phrase, but it is important to cover a variety of utterances so that the Natural Language Understanding(NLU) engine can best interpret your user's intent.
 
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/sample-utterances._TTH_.png)
 
-8.  Given the flexibility and variation of spoken language in the real world, there will often be many different ways to express the same request. Providing these different phrases in your sample utterances will help improve voice recognition for the abilities you add to Alexa. It is important to include as wide a range of representative samples as you can -– all the phrases that you can think of that are possible in use (though do not include samples that users will never speak). Alexa also attempts to generalize based on the samples you provide to interpret spoken phrases that differ in minor ways from the samples specified.
+10.  Given the flexibility and variation of spoken language in the real world, there will often be many different ways to express the same request. Providing these different phrases in your sample utterances will help improve voice recognition for the abilities you add to Alexa. It is important to include as wide a range of representative samples as you can -– all the phrases that you can think of that are possible in use (though do not include samples that users will never speak). Alexa also attempts to generalize based on the samples you provide to interpret spoken phrases that differ in minor ways from the samples specified.
 
-    Now it is time to add the Utterances. Copy/paste the sample utterances from [GitHub](https://github.com/alexa/skill-sample-nodejs-city-guide/blob/master/speechAssets/SampleUtterances.txt). An example of utterances is listed below.
+    Now it is time to add the Utterances. Copy/paste the sample utterances from [GitHub](https://github.com/alexa/skill-sample-nodejs-messaging/blob/master/speechAssets/SampleUtterances.txt). An example of utterances is listed below.
 
     ```
-    getOverview tell me about Seattle
+    AddPhoneIntent {phonenumber}
+    AddNameIntent {firstname}
 
-    getTopFiveIntent tell me top five things to do
-    getTopFiveIntent what are the top five things to do
-    getTopFiveIntent what I should see
+    ReminderMessageIntent reminder
+    ReminderMessageIntent remind
+    ReminderMessageIntent remind message
+    ReminderMessageIntent {noun}
 
-    getAttractionIntent tell me what to do
-    getAttractionIntent give me an attraction
+    MissYouMessageIntent miss you
+    MissYouMessageIntent i miss you
+    MissYouMessageIntent miss you message
+    MissYouMessageIntent an i miss you message
 
-    getMoreInfoIntent tell me more about {attraction}
-    getMoreInfoIntent open attraction {attraction}
-    getMoreInfoIntent open number {attraction}
+    HelloMessageIntent hello
+    HelloMessageIntent a hello
+    HelloMessageIntent hello message
+    HelloMessageIntent a hello message
 
-    getNewsIntent get me the news
-    getNewsIntent tell me the news
+    LoveYouMessageIntent i love you 
+    LoveYouMessageIntent love you
+    LoveYouMessageIntent i love you message
+    LoveYouMessageIntent love you message
     ```
     
-    As you can see in the example above, we are using our custom intents with phrases that our users might use to interact with our skill.  Each example is a different way that a user might ask for that intent.  getMoreInfoIntent expects an AMAZON.NUMBER slot, so we have specified this in our utterances with {attraction}.  ([More information on slots can be found here.](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-interaction-model-reference#slot-types))
+    As you can see in the example above, we are using our custom intents with phrases that our users might use to interact with our skill.  Each example is a different way that a user might ask for that intent.  AddPhoneIntent expects an AMAZON.NUMBER slot, so we have specified this in our utterances with {phonenumber}.  ([More information on slots can be found here.](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-interaction-model-reference#slot-types))
 
-9.  Select **Save**. You should see the interaction model being built (this might take a minute or two). If you select Next, your changes will be saved and you will go directly to the Configuration screen. After selecting Save, it should now look like this:
+11.  Select **Save**. You should see the interaction model being built (this might take a minute or two). If you select Next, your changes will be saved and you will go directly to the Configuration screen. After selecting Save, it should now look like this:
 
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/interaction-model._TTH_.png)
 
