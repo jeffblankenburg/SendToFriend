@@ -187,7 +187,7 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 
 7.  You should now be in the **"Configure Function"** section. Enter the Name, Description, and Runtime for your skill as in the example below.  Your runtime should be "Node.js 4.3."
 
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/configure-function._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/configure-function._TTH_.png)
 
 8.  Delete the code in the **Lambda function code** box, and replace it with the code from this tutorial.  [You can get this file on GitHub](https://github.com/jeffblankenburg/SendToFriend/blob/master/src/index.js).
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/paste-code._TTH_.png)
