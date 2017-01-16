@@ -313,7 +313,7 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 
 Now we need to go back to our Developer Portal to test and edit our skill and we will be ready for certification.
 
-1.  In your skill's Test section, enter your Utterances into the Simulator to make sure everything is working with your new calendar events.
+1.  In your skill's Test section, enter your Utterances into the Simulator to make sure everything is working with your new messaging skill.
 
 2.  Optionally, you can test with your Alexa-enabled device to make sure everything is working correctly. You may find a few words that need to be changed for a better user experience.
 
@@ -322,7 +322,7 @@ Now we need to go back to our Developer Portal to test and edit our skill and we
     * Does every word in Alexa's responses sound correct? 
     * Do you need to change any words to make them sound correct?
   
-    Since we get to choose our locations, make sure that Alexa pronouces the names of those locations properly. You can use the Voice Simulator in the Test section to simulate Alexa’s responses. In the Voice Simulator, type in each location name that you are using to test how Alexa will say it. Use additional punctuation or possibly SSML if you need to better control how Alexa responds. You can find out more about [SSML here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference).
+    Since we get to choose our responses, make sure that Alexa pronouces the words you chose properly. You can use the Voice Simulator in the Test section to simulate Alexa’s responses. In the Voice Simulator, type in each location name that you are using to test how Alexa will say it. Use additional punctuation or possibly SSML if you need to better control how Alexa responds. You can find out more about [SSML here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference).
     
     [Read more about functional testing for Alexa skills.](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-functional-testing)
     
@@ -330,26 +330,23 @@ Now we need to go back to our Developer Portal to test and edit our skill and we
 
 3.  Select the Publishing Information area of your skill next:
  
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/publishing-information._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/publishing-information._TTH_.png)
  
     * Spend some time coming up with an enticing, succinct description. This is an excellent way to attract new users. These descriptions show up on the list of [skills available](http://alexa.amazon.com/#skills) in the Alexa app, or at [amazon.com/skills](http://amazon.com/skills).
     * In your example phrases, be sure that the examples you use exactly match the utterances that you created in the Interaction Model section.  The first example should be "Alexa, open {your invocation name}" and no utterance. Remember, there are built-in intents such as help and cancel. You can learn more about [built-in intents here](https://developer.amazon.com/appsandservices/solutions/alexa/alexa-skills-kit/docs/implementing-the-built-in-intents#Available%20Built-in%20Intents). You can also review the list of [supported phrases](https://developer.amazon.com/appsandservices/solutions/alexa/alexa-skills-kit/docs/supported-phrases-to-begin-a-conversation) to begin a conversation.
     * Be sure you have the rights to whatever icons you are uploading – you will need to provide both 108x108px and 512x512px images. If there is any question, the Amazon certification team will fail your Alexa skill submission.  In the event your skill fails certification, you will receive an email from Amazon's testing team with information about your certification results.
+    * IMPORTANT: Add the text “This is based on the Messaging Skill Template” to the Testing Instructions section. This alerts the Certification team of your submission using this standardized template, smoothing the road to a faster certification process.
 
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/publishing-information-2._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/publishing-information-2._TTH_.png)
  
     Once you have uploaded your icons, you should see a success message at the bottom of the screen.
 
-4.  IMPORTANT: Add the text “This is based on the City Guide Template” to the Testing Instructions section. This alerts the Certification team of your submission using this standardized template, smoothing the road to a faster certification process. Finally, **select Next**.
-
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/testing-instructions._TTH_.png)
-   
-5.  Privacy and Compliance.
+4.  Privacy and Compliance.
 
     1.  On the Privacy and Compliance section, make sure to consider each answer.
         1.  Since our skill does not require purchases or spending of money, choose "No" for the first question.
-        2.  We don't collect any personal data from our users, so you can also choose "No" for the second question.
-        3.  If your city guide is not directed to children under the age of 13 or is not intended to target children under the age of 13, choose ‘No’ for the third question as well.
+        2.  We are collecting personal information in this skill, when we ask for names and mobile phone numbers.  Answer yes for the second question.
+        3.  If your messaging skill is not directed to children under the age of 13 or is not intended to target children under the age of 13, choose ‘No’ for the third question as well.
         4.  Choose to certify that your skill can be imported to and exported from the countries and regions that you operate the skill.
         5.  Privacy and Terms URL’s are optional, but recommended.
 
