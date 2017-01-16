@@ -348,13 +348,14 @@ Now we need to go back to our Developer Portal to test and edit our skill and we
         2.  We are collecting personal information in this skill when we ask for names and mobile phone numbers.  Answer yes for the second question.
         3.  If your messaging skill is not directed to children under the age of 13 or is not intended to target children under the age of 13, choose ‘No’ for the third question as well.
         4.  Choose to certify that your skill can be imported to and exported from the countries and regions that you operate the skill.
-        5.  Privacy and Terms URL’s are optional, but recommended.
+        5.  You must provide a simple privacy policy in order to publish this skill.  You can set up a free [Wordpress](http://wordpress.com) site to host this, a [GitHub](http://github.com) repository, or post a page on a website of your choosing.  [You can see my example here.](https://blankenblog.com/send-to-friend-privacy-policy/)
+        6. A Terms of Use is optional, but always recommended as well.
 
     2.  Select **“Save”**.
  
     3.  Select “Submit for Certification”
             
-        ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/certify._TTH_.png)
+        ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/certify._TTH_.png)
    
     4.  Finally, confirm your submission. Select “Yes” to submit your skill.
    
