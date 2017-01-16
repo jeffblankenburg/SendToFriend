@@ -209,11 +209,14 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 
 12. Keep the Advanced settings as default. Select **‘Next’** and review. You should see something like below. Then select **‘Create Function’**:
 
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/lambda-review._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/lambda-review._TTH_.png)
 
 13. Congratulations, you have created your AWS Lambda function. **Copy** the Amazon Resource Name (ARN) for use in the Configuration section of the Amazon Developer Portal.
 
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/lambda-congratulations._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/lambda-congratulations._TTH_.png)
+
+14.  Before we move on, we have one additional step we need to take in this tutorial, because we will be using the [Simple Notification Service (SNS)](http://aws.amazon.com/sns).  We need to modify the IAM role we created earlier so that it has permissions to use the SNS service.  To do this, [go to the IAM section of the AWS console](https://console.aws.amazon.com/iam/home#/roles).  You should see your "lambda_basic_execution" role in a list.
+     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/iam-role-list._TTH_.png)
 
 ## Step 3: Add Your Lambda Function to Your Skill
 
