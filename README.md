@@ -133,33 +133,11 @@ Skills are managed through the Amazon Developer Portal. You’ll link the Lambda
 
 11.  Select **Save**. You should see the interaction model being built (this might take a minute or two). If you select Next, your changes will be saved and you will go directly to the Configuration screen. After selecting Save, it should now look like this:
 
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/interaction-model._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/interaction-model._TTH_.png)
 
 Next we will configure the AWS Lambda function that will host the logic for our skill.
 
 ## Step 2: Creating Your Skill Logic using AWS Lambda
-
-### Installing and Working with the Alexa Skills Kit SDK for Node.js (alexa-sdk)
-
-To make the development of skills easier, we have created the ASK SDK for Node.js. We will be using this module to deploy the sample. The alexa-sdk is available on [github here](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) and can be deployed as a node package from within your Node.js environment.
-
-1.  First, you will need to download the sample repository
-     * On GitHub, navigate to the [City Guide repository](https://github.com/alexa/skill-sample-nodejs-city-guide). Click download (the green button) to download the repository to your local machine.
-
-2.  To leverage the SDK for ASK you will need to install Node.js and update npm. To set this up on your machine, [follow these steps](https://docs.npmjs.com/getting-started/installing-node).
-
-3.  Once you have the source downloaded, node.js installed and npm updated, you are ready to install the ASK-SDK. Install this in the same directory as your City Guide src/index.js file you downloaded earlier. Change the directory to the src directory of your skill, and then on the command line, type:
- 
-    ```
-    npm install --save alexa-sdk
-    ```
-    Once this is installed you will need to include the **node_modules** directory with the source code for your skill when you compress the src for uploading to AWS Lambda. Let's do this with the example.
-    
-4.  Navigate to where you downloaded the sample respository and installed the Alexa SDK in step 3. Select the **src** directory.
-    
-5.  Compress the files inside the src directory into a zip file. **Remember**, do not compress the src directory itself, just the files within the directory. (The index.js file and the node_modules folder.) Your compressed file should show up in the src directory. You will use this file in a later step.
-
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/create-compressed-folder._TTH_.png)
 
 ### Create an AWS Account
  
@@ -179,7 +157,7 @@ To make the development of skills easier, we have created the ASK SDK for Node.j
 
 ### Create an AWS Lambda Function
 
-AWS Lambda lets you run code without provisioning or managing servers. You pay only for the compute time you consume - there is no charge when your code is not running. With Lambda, you can run code for virtually any type of application or backend service - all with zero administration. Just upload your code and Lambda takes care of everything required to run and scale your code with high availability.
+AWS Lambda lets you run code without provisioning or managing servers. The free tier of AWS Lambda provides you with 1,000,000 invocations of your function for free each month.
 
 **Note: If you are new to Lambda and would like more information, visit the [Lambda Getting Started Guide](http://docs.aws.amazon.com/lambda/latest/dg/getting-started.html).**
 
@@ -195,9 +173,9 @@ AWS Lambda lets you run code without provisioning or managing servers. You pay o
  
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/create-a-lambda-function._TTH_.png)
 
-4.  Select the **Blank Function** option on the Select Blueprint screen.
+4.  Select the **alexa-skill-kit-sdk-factskill** option on the Select Blueprint screen.
 
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/select-blank-function._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/select-blueprint._TTH_.png)
 
 5.  Now, you need to configure the event that will trigger your function to be called. As we are building skills with the Alexa Skills Kit, click on the gray dash-lined box and select Alexa Skills Kit from the dropdown menu.  (If you don't see this option, go back to Step #1 and select the appropriate AWS region).  This gives the Alexa service permission to invoke your skill's function.
 
@@ -211,9 +189,8 @@ AWS Lambda lets you run code without provisioning or managing servers. You pay o
 
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/configure-function._TTH_.png)
 
-8.  Select the **‘Code Entry Type’** as **‘Upload Zip File’** and upload the zip file containing the example you created in Step 1. **Note:** This zip file should contain the contents of the src directory, including the node_modules subfolder.
-
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/upload-a-zip-file._TTH_.png)
+8.  Delete the code in the **Lambda function code** box, and replace it with the code from this tutorial.  [You can get this file on GitHub](https://github.com/jeffblankenburg/SendToFriend/blob/master/src/index.js).
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/paste-code._TTH_.png)
 
 9.  Set your handler and role as follows:
 
