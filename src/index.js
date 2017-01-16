@@ -300,7 +300,7 @@ var sessionHandlersForMessage = Alexa.CreateStateHandler(states.SENDMESSAGE,{
             var speechPrefix = getRandomStringWithReplace(this.t("MESSAGE_SENT"), this.attributes["recipientName"]);
             var speechOutput = speechPrefix + "<break strength='strong'/>" + messageOutput + "<break strength='x-strong'/>Thanks for using Send To Friend! Goodbye!";
             var textOutput = speechPrefix + " " + messageOutput + " Thanks for using Send To Friend! Goodbye!";
-            var params = {PhoneNumber: "1" + this.attributes["recipientNumber"], Message: messageOutput};
+            var params = {PhoneNumber: this.attributes["recipientNumber"], Message: messageOutput};
             
 
             SNS.publish(params, function(err,data){});
