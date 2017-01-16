@@ -215,8 +215,15 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/lambda-congratulations._TTH_.png)
 
-14. Before we move on, we have one additional step we need to take in this tutorial, because we will be using the [Simple Notification Service (SNS)](http://aws.amazon.com/sns).  We need to modify the IAM role we created earlier so that it has permissions to use the SNS service.  To do this, [go to the IAM section of the AWS console](https://console.aws.amazon.com/iam/home#/roles).  You should see your "lambda_basic_execution" role in a list.
+14. Before we move on, we have one additional step we need to take in this tutorial, because we will be using the [Simple Notification Service (SNS)](http://aws.amazon.com/sns).  We need to modify the IAM role we created earlier so that it has permissions to use the SNS service.  To do this, [go to the IAM section of the AWS console](https://console.aws.amazon.com/iam/home#/roles).  You should see your "lambda_basic_execution" role in a list.  Click it to open that role.
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/iam_role_list._TTH_.png)
+
+15. On the next screen, we need to add a new managed policy to our IAM role.  To do this, click the "Attach Policy" button.
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/iam-role-summary._TTH_.png)
+
+16. On the "Attach Policy" screen, you are looking for the "AmazonSNSFullAccess" policy.  (Typing SNS in the filter box makes it easy to find.)  Check the box, and click "Attach Policy" at the bottom of the page.  This will apply the SNS policy to your IAM role, making it possible for your skill to send SMS messages using this service.
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/attach-policy._TTH_.png)
+    
 
 ## Step 3: Add Your Lambda Function to Your Skill
 
