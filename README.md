@@ -16,7 +16,7 @@ After completing this tutorial, you'll know how to do the following:
    * __Create a messaging skill__ - This tutorial will walk Alexa skills developers through all the required steps involved in creating a skill that sends SMS messages.
    * __Understand the basics of VUI design__ - Creating this skill will help you understand the basics of creating a working Voice User Interface (VUI) while using a cut/paste approach to development. You will learn by doing, and end up with a published Alexa skill. This tutorial includes instructions on how to customize the skill and submit for certification. For guidance on designing a voice experience with Alexa you can also [watch this video](https://goto.webcasts.com/starthere.jsp?ei=1087592).
    * __Use JavaScript/Node.js and the Alexa Skills Kit to create a skill__ - You will use the template as a guide but the customization is up to you. For more background information on using the Alexa Skills Kit please [watch this video](https://goto.webcasts.com/starthere.jsp?ei=1087595).
-   * __[Manage state](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs#making-skill-state-management-simpler) in an Alexa skill__ - As the user moves through our skill, we modify their state to track their progress, and manage which intents should be executed based on that state.
+   * __Manage state in an Alexa skill__ - As the user moves through our skill, we modify their state to track their progress, and manage which intents should be executed based on that state.  [Read more about state management here](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs#making-skill-state-management-simpler).
    * __DynamoDB integration__ - Because this skill behaves like a conversation, we also need to persist the user's data as we move through it.  DynamoDB provides an excellent (and easy) way to do this.
    * __Intent handoffs__ - Sometimes, we want a user to complete a specific intent before they move on to the next one.  This sample skill provides several examples of using the emitWithState() function to move a user from one intent to another.
    * __Response randomization__ - In order to simulate a real conversation, we also randomize all of Alexa's responses so that the skill doesn't appear to follow the same script every time.  The user goes through the same process each time, but what Alexa says varies with each experience.
@@ -46,12 +46,12 @@ Skills are managed through the Amazon Developer Portal. You’ll link the Lambda
 4.  There are several choices to make on this page, so we will cover each one individually.
     1. Choose the language you want to start with.  You can go back and add all of this information for each language later (this template is designed for US English, UK English, and German), but for this tutorial, we are working with "English (U.S.)"
     2. Make sure the radio button for the Custom Interaction Model is selected for “Skill Type”.
-    3. Add the name of the skill. Give your skill a name that is simple and memorable, like "Seattle Guide." The name will be the one that shows up in the Alexa App (and now at [amazon.com/skills](https://www.amazon.com/skills)) when users are looking for new skills.  (Obviously, don't use Seattle Guide.  Use a name that describes the city you plan to use for your skill.)
+    3. Add the name of the skill. Give your skill a name that is simple and memorable, like "Send To Friend." The name will be the one that shows up in the Alexa App (and now at [amazon.com/skills](https://www.amazon.com/skills)) when users are looking for new skills.  (Obviously, don't use "Send To Friend".  Use a name that describes the kinds of messages you plan to use for your skill.)
     4. Add the invocation name. This is what your users will actually say to start using your skill. We recommend using only two or three words, because your users will have to say this every time they want to interact with your skill.
     5. Under "Global Fields," select "no" for Audio Player, as our skill won't be playing any audio.  
     6. Select **Next**.
    
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/create-a-new-alexa-skill._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/create-a-new-alexa-skill._TTH_.png)
 
 5.  Next, we need to define our skill’s interaction model. Let’s begin with the intent schema. In the context of Alexa, an intent represents an action that fulfills a user’s spoken request.
    
