@@ -279,53 +279,35 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
    
         Everything else can stay as-is for now in the Developer Portal.
 
-2.  Open the source file for your Lambda function, index.js, in an editor of your choice. This is in the src directory of the repository you downloaded earlier. You will see on line 9 the location variable, which is currently set to "Seattle." You will want to replace this with the name of the location you're using for your skill.  This name is used in many of the messages that Alexa will respond with, so you will only need to replace it in this one location.
+2.  Head back to your Lambda function now.  This is where you can customize the kinds of things that Alexa says and does.  Feel free to peruse the code in the "Code" tab, but the important parts for customization start on line 488. There is where you will find a large collection of language strings broken up into three languages.  They are in order alphabetically, en-GB is for UK English, en-US is for United States English, and de-DE is for German.
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/language-strings._TTH_.png)
+
+3.  You will notice that there are three different strings for each type of response.  This is done so that Alexa can vary her responses to the user.  Each time that Alexa needs to respond to the user, she will select one of the appropriate values at random from the list.  You should definitely expand her response list to make her responses even more conversational.
+
+4.  To clarify each of the response types, here's a quick guide:
+    * USER_REQUEST: This welcomes the user to the skill, and prompts them for their first name.
+    * USER_CONFIRMATION: This message repeats the user's name back to them, to make sure that she heard it correctly.
+    * NAME_REQUEST: This repeats the user's name, and asks for the name of the person they are sending a message to.
+    * NAME_CONFIRMATION: This repeats the intended recipient's name back to the user, asking for confirmation that Alexa heard it correctly.
+    * NAME_MISUNDERSTANDING: If Alexa got the name wrong, she apologizes, and then asks for the name again.
+    * PHONE_REQUEST: This asks the user for the mobile phone number that the message should be sent to.
+    * PHONE_CONFIRMATION: Alexa repeats the phone number back to the user, and confirms that it is correct.
+    * PHONE_MISUNDERSTANDING: When a user provides a value that is not 10 digits (the format of a US-based mobile phone number), she repeats the number, and asks the user to say the number again.
+    * PHONE_RETRY: If the user indicates that the phone number was received incorrectly, Alexa apologizes and asks for it again.
+    * MESSAGE_SENT: This is confirmation to the user that a message has been sent to their intended user.  This is paired with an option from one of the next four categories that the user selected.
+    * REMINDER_MESSAGE: These are messages meant to remind the recipient about something that the user indicated.  This uses the data from our custom slot we called "noun" earlier.
+    * LOVE_MESSAGE: These are messages to communicate that the user was thinking about someone they love.
+    * MISSYOU_MESSAGE: These are messages to communicated that the user misses the recipient.
+    * HELLO_MESSAGE: These are messages to send a friendly "Hello" message to their recipient. 
+    * HELP_MESSAGE: This is message the user will hear when they ask for help.  It tells them what they can do, and prompts them to say "Start Over" or "Quit."
+    * UNHANDLED_MESSAGE: If the user somehow tries something that isn't handled, this is the message they will receive.  Similar to help, it asks them to "Start Over" or "Quit."
+    * STOP_MESSAGE: When a user indicates that they want our skill to stop, this should be a very brief message saying goodbye.
+
+5. You will definitely notice that some of the responses have "XXXXXXXXXX" or "YYYYYYYYYY" in them.  We built this as a way to easily collect all of your strings in one place, but also insert some of the data the user provides into those strings.  For example, one of the USER_CONFIRMATION strings is "Perfect.  I heard your name as XXXXXXXXXX.  Is that right?"  The code earlier in our Lambda function will look for a string of 10 Xs and replace them with the name that the user provides to us.  The same goes for phone numbers, recipient names, etc.
+
+6. Once you have successfully updated all of your strings, scroll back to the top of the page and select “Save”.
  
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/location-variable._TTH_.png)
-
-3.  On line 13, there is a variable for your New York Times API key.  There are several steps required to get this key, and we outline them below.
-    1.  Start by heading over to the [New York Times Developer Website](https://developer.nytimes.com).
-    2.  Create a new API key for the Article Search API.  This key will be emailed to the email address you provide.
-        ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/NYTAPI._TTH_.png)
-    3.  Copy your API key from your email, and copy it to line 13 of your index.js file, as the value for the "apiKey" variable.
-    4.  If you do not agree to the terms of use applicable to your use of the New York Times API, you can remove the “getNewsIntent” from your Intent Schema and Sample Utterances to easily disable it.  You can review the [New York Times API Terms of Use here](https://developer.nytimes.com/tou).
-
-4.  On line 19, there is a long set of sentences in the locationOverview variable.  This is meant to be an introduction to your city, and should include things like population, location, geography, and climate.
-
-    ```JAVASCRIPT
-    var locationOverview = "Seattle is a West Coast seaport city and the  seat of King County. With an estimated 684,451 residents as of 2015, Seattle is the largest city in both the state of Washington and the Pacific Northwest region of North America.";
-    ```
-
-5.  On line 47, we have provided an array, named "attractions."  You should replace the values we have included with attractions and landmarks that are relevant and popular in your chosen location.  You're not limited to only five attractions, but we don't recommend using fewer than five.
-
-    ```JAVASCRIPT
-    var attractions = [
-    { name: "Woodland Park Zoo", content: "located just 10 minutes north of downtown Seattle. The zoo's 92-acres and award-winning exhibits are home to more than 1,000 animals representing 300 species from around the world.", location: "There are two zoo entrances. \n West Entrance:\n Cross streets: Phinney Ave. N. between N. 55th St. & N. 56th St.\n Street address: 5500 Phinney Ave. N., Seattle WA 98103\n South Entrance:\n Cross streets: N. 50th Street & Fremont Ave. N.\n Street address: 750 N. 50th Street, Seattle WA 98103", contact: "zooinfo@zoo.org\n 206 548 2500" },
-    { name: "EMP Museum", content: "Dedicated to contemporary popular culture, the EMP Museum was established by Microsoft co-founder Paul Allen in 2000.It's home to exhibits, interactive activity stations, sound sculpture, and various educational resources.", location: "325 5th Avenue N, Seattle, Washington", contact: "206 770 2700" },
-    { name: "Waterfront Park", content: "Designed by the Bumgardner Partnership and consultants, Waterfront Park is a public park constructed on the site of the former Schwabacher Wharf. you can enjoy excellent views of the surrounding arey, such as the city skyline, ships in drydock, container cranes and the West Seattle Bridge.", location: "1401 Alaskan Way, Seattle, WA 98101, United States", contact: "206 684 4075" },
-    { name: "Chihuly Garden and Glass", content: "Opened in 2012 on the former site of the Fun Forest, Chihuly Garden and Glass is an exhibit showcasing the work of Dale Chihuly. It comprises of three primary components: the Garden, the Glasshouse, and the Interior Exhibit. There is also a 90 seat café with additional outdoor dining.", location: "305 Harrison St, Seattle, WA 98109, United States", contact: "206 753 4940" },
-    { name: "Woodland Park", content: "A 90 acre public park home to many species of birds and mammals. Woodland park boasts several picnic areas, a formal rose garden, ballfields, a miniature golf range and a play area for children.", location: "1000 N 50th St, Seattle, WA 98103, United States", contact: "206 684 4075" },];
-    ```
-6.  On line 55, we have provided another array, named "topFive."  This array contains responses about the top 5 things to do in your city.  When Alexa provides your list to the user, they will hear the number and the caption for each.  If the user requests more information on a specific item, Alexa will read the content in the "more" property.
-
-    ```JAVASCRIPT
-    var topFive = [
-    { number: "1", caption: "Visit the Space Needle and see Seattle from  above.", more: "Once the tallest structure west of the Mississippi River, The Space Needle is an observation tower that reaches a height of 605 feet. The observation deck falls slightly below this, offering views at 520 feet.", location: "400 Broad St. Seattle, WA 98109", contact: "400 Broad St. Seattle, WA 98109" },
-    { number: "2", caption: "Get shopping at Pike Place Market.", more: "One of the oldest farmer's markets in America, Pike Place Market is Seattle’s historic arcade of various vendors, winding alleys and stairways to lower levels. The market plays host to more than 10 million visitors annually.", location: "Pike Place Market PDA, 85 Pike Street, Room 500, Seattle, WA 98101", contact: "info@pikeplacemarket.org \n 206 682 7453" },
-    { number: "3", caption: "Earn your  wings at the Museum  of Flight.", more: "This museum is a non-profit air and space museum located at the southern end of King County International Airport . It's the largest private museum of its kind in the world and attracts over 500,000 visitors every year", location: "9404 East Marginal Way South Seattle, WA 98108-4097", contact: "206 764 5700" },
-    { number: "4", caption: "Breathe in the culture  at the Seattle Art  Museum.", more: "Also known as \"SAM\", the Seattle Art Museum maintains three major facilities: its main museum in downtown Seattle; the Seattle Asian Art Museum, and the Olympic Sculpture Park. The flagship museum is host to several great exhibitions and collections for you to experience.", location: "1300 First Ave Seattle, WA 98101", contact: "206 654 3100" },
-    { number: "5", caption: "Take a spin on the  Seattle Great Wheel.", more: "See Seattle's skyline from the giant Ferris wheel situated on Pier 57. The Seattle Great Wheel is the largest observation wheel on the west coast, standing 175 feet tall.", location: "1301 Alaskan Way, Seattle, Washington 98101", contact: "greatwheel@pier57seattle.com \n 206 623 8607" }];
-    ```
-    
-7.  Log back into your AWS console and upload the changes you have just made. First you will need to zip up the files into a new archive. You can do this by selecting the files that you need in the src directory (the node_modules directory and your updated index.js) into a new archive. Be sure that you compress the files in the folder, not the folder itself. 
- 
-8.  Select your Lambda function and on the Code tab, select “Upload” to add the archive you just created.
- 
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/upload-archive._TTH_.png)
-
-9. Once you have successfully added the file you will see it on the screen, then select “Save”.
- 
-10. Repeat the tests you performed earlier to ensure your changes are functioning properly. See Step #4 for a review of how to perform functional tests.
+7. Repeat the tests you performed earlier to ensure your changes are functioning properly. See Step #4 for a review of how to perform functional tests.
 
 ## Step 6: Publish Your Skill
 
