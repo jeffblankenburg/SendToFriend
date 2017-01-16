@@ -1,0 +1,18 @@
+AddPhoneIntent {phonenumber}
+AddNameIntent {firstname}
+ReminderMessageIntent reminder
+ReminderMessageIntent remind
+ReminderMessageIntent remind message
+ReminderMessageIntent {noun}
+MissYouMessageIntent miss you
+MissYouMessageIntent i miss you
+MissYouMessageIntent miss you message
+MissYouMessageIntent an i miss you message
+HelloMessageIntent hello
+HelloMessageIntent a hello
+HelloMessageIntent hello message
+HelloMessageIntent a hello message
+LoveYouMessageIntent i love you 
+LoveYouMessageIntent love you
+LoveYouMessageIntent i love you message
+LoveYouMessageIntent love you message

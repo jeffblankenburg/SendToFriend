@@ -1334,6 +1334,7 @@ egg
 egghead
 eggnog
 eggplant
+eggs
 egypt
 eight
 ejector
@@ -3880,6 +3881,8 @@ tablecloth
 tabletop
 tachometer
 tackle
+taco
+tacos
 tadpole
 tail
 tailor

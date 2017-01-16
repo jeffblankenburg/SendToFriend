@@ -1,0 +1,17 @@
+{
+  "intents": [
+    {"intent": "AddPhoneIntent", "slots":[{"name": "phonenumber", "type": "AMAZON.NUMBER"}]},
+    {"intent": "AddNameIntent", "slots":[{"name": "firstname", "type": "AMAZON.US_FIRST_NAME"}]},
+    {"intent": "ReminderMessageIntent", "slots":[{"name": "noun", "type": "NOUN"}]},
+    {"intent": "HelloMessageIntent"},
+    {"intent": "MissYouMessageIntent"},
+    {"intent": "LoveYouMessageIntent"},
+    {"intent": "AMAZON.StartOverIntent"},
+    {"intent": "AMAZON.RepeatIntent"},
+    {"intent": "AMAZON.HelpIntent"},
+    {"intent": "AMAZON.YesIntent"},
+    {"intent": "AMAZON.NoIntent"},
+    {"intent": "AMAZON.StopIntent"},
+    {"intent": "AMAZON.CancelIntent"}
+  ]
+}

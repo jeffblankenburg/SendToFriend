@@ -43,7 +43,7 @@ Skills are managed through the Amazon Developer Portal. You’ll link the Lambda
 
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/general/add-a-new-skill.png)
  
-4.  There are several choices to make on this page, so we will cover each one individually.
+4.  There are several choices to make on this next page, so we will cover each one individually.
     1. Choose the language you want to start with.  You can go back and add all of this information for each language later (this template is designed for US English, UK English, and German), but for this tutorial, we are working with "English (U.S.)"
     2. Make sure the radio button for the Custom Interaction Model is selected for “Skill Type”.
     3. Add the name of the skill. Give your skill a name that is simple and memorable, like "Send To Friend." The name will be the one that shows up in the Alexa App (and now at [amazon.com/skills](https://www.amazon.com/skills)) when users are looking for new skills.  (Obviously, don't use "Send To Friend".  Use a name that describes the kinds of messages you plan to use for your skill.)
@@ -66,18 +66,22 @@ Skills are managed through the Amazon Developer Portal. You’ll link the Lambda
     For the getMoreInfoIntent, the user will be providing a number, like "Tell me about attraction number one." [For more on the use of built-in intents, go here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/implementing-the-built-in-intents).
 
     ```JSON
-    {  
-      "intents": [  
-        { "intent": "getOverview", "slots": [] },  
-        { "intent": "getTopFiveIntent", "slots": [] },  
-        { "intent": "getAttractionIntent", "slots": [] },  
-        { "intent": "getMoreInfoIntent", "slots": [{ "name": "attraction", "type": "AMAZON.NUMBER" }] },  
-        { "intent": "getNewsIntent", "slots": [] },  
-        { "intent": "AMAZON.YesIntent", "slots": [] },  
-        { "intent": "AMAZON.NoIntent", "slots": [] },  
-        { "intent": "AMAZON.HelpIntent", "slots": [] },  
-        { "intent": "AMAZON.RepeatIntent", "slots": [] }
-      ]  
+    {
+        "intents": [
+            {"intent": "AddPhoneIntent", "slots":[{"name": "phonenumber", "type": "AMAZON.NUMBER"}]},
+            {"intent": "AddNameIntent", "slots":[{"name": "firstname", "type": "AMAZON.US_FIRST_NAME"}]},
+            {"intent": "ReminderMessageIntent", "slots":[{"name": "noun", "type": "NOUN"}]},
+            {"intent": "HelloMessageIntent"},
+            {"intent": "MissYouMessageIntent"},
+            {"intent": "LoveYouMessageIntent"},
+            {"intent": "AMAZON.StartOverIntent"},
+            {"intent": "AMAZON.RepeatIntent"},
+            {"intent": "AMAZON.HelpIntent"},
+            {"intent": "AMAZON.YesIntent"},
+            {"intent": "AMAZON.NoIntent"},
+            {"intent": "AMAZON.StopIntent"},
+            {"intent": "AMAZON.CancelIntent"}
+        ]
     }
     ```
     
