@@ -327,24 +327,34 @@ var sessionHandlersForMessage = Alexa.CreateStateHandler(states.SENDMESSAGE,{
         }
     },
     "HelloMessageIntent": function() {
-        this.emit(":tellWithCard", "HI!  THIS WORKED!");
-        //"OK.  I just sent " + this.attributes["recipientName"] + " this message<break strength='x-strong'/>" + this.attributes["recipientName"] + ", don't forget about " + this.event.request.intent.slots.noun.value + "!  From, " + this.attributes["senderName"] + "/n/nSent by Alexa and Send To Friend."
+        var imageObj = {smallImageUrl: helloImageUrlSmall, largeImageUrl: helloImageUrlLarge};
+        var messageOutput = getRandomStringWithReplace(this.t("HELLO_MESSAGE"), this.attributes["senderName"]);
+        var speechPrefix = getRandomStringWithReplace(this.t("MESSAGE_SENT"), this.attributes["recipientName"]);
+        var speechOutput = speechPrefix + "<break strength='strong'/>" + messageOutput + "<break strength='x-strong'/>Thanks for using Send To Friend! Goodbye!";
+        var textOutput = speechPrefix + " " + messageOutput + " Thanks for using Send To Friend! Goodbye!";
+        var params = {PhoneNumber: this.attributes["recipientNumber"], Message: messageOutput};
+        SNS.publish(params, function(err,data){});
+        this.emit(":tellWithCard", speechOutput, "Message Sent To " + this.attributes["recipientName"] + " (" + this.attributes["recipientNumber"] + ")", textOutput, imageObj);
     },
     "MissYouMessageIntent": function() {
-        
+        var imageObj = {smallImageUrl: missYouImageUrlSmall, largeImageUrl: missYouImageUrlLarge};
+        var messageOutput = getRandomStringWithReplace(this.t("MISSYOU_MESSAGE"), this.attributes["senderName"]);
+        var speechPrefix = getRandomStringWithReplace(this.t("MESSAGE_SENT"), this.attributes["recipientName"]);
+        var speechOutput = speechPrefix + "<break strength='strong'/>" + messageOutput + "<break strength='x-strong'/>Thanks for using Send To Friend! Goodbye!";
+        var textOutput = speechPrefix + " " + messageOutput + " Thanks for using Send To Friend! Goodbye!";
+        var params = {PhoneNumber: this.attributes["recipientNumber"], Message: messageOutput};
+        SNS.publish(params, function(err,data){});
+        this.emit(":tellWithCard", speechOutput, "Message Sent To " + this.attributes["recipientName"] + " (" + this.attributes["recipientNumber"] + ")", textOutput, imageObj);
     },
     "LoveYouMessageIntent": function() {
         var imageObj = {smallImageUrl: loveImageUrlSmall, largeImageUrl: loveImageUrlLarge};
-        var messageOutput = getRandomString(this.t("LOVE_MESSAGE"));
-        var speechOutput = getRandomStringWithReplace(this.t("MESSAGE_SENT"), this.attributes["recipientName"]) + "<break strength='strong'/>" + messageOutput + "<break strength='x-strong'/>Thanks for using Send To Friend! Goodbye!";
-        var textOutput = speechOutput.replace("<break strength='strong'/>", " ");
-        var params = {PhoneNumber: "1" + this.attributes["recipientNumber"], Message: messageOutput};
-        var parentOfThis = this;
-        SNS.publish(params, function(err, data)
-        {
-            if (err) {parentOfThis.emit(":ask", "Something happened while I was sending that text message.  Would you like to try again?");}
-            else {parentOfThis.emit(":tellWithCard", speechOutput, "Message Sent To " + parentOfThis.attributes["recipientName"] + " (" + parentOfThis.attributes["recipientNumber"] + ")", textOutput, imageObj);}
-        });
+        var messageOutput = getRandomStringWithReplace(this.t("LOVE_MESSAGE"), this.attributes["senderName"]);
+        var speechPrefix = getRandomStringWithReplace(this.t("MESSAGE_SENT"), this.attributes["recipientName"]);
+        var speechOutput = speechPrefix + "<break strength='strong'/>" + messageOutput + "<break strength='x-strong'/>Thanks for using Send To Friend! Goodbye!";
+        var textOutput = speechPrefix + " " + messageOutput + " Thanks for using Send To Friend! Goodbye!";
+        var params = {PhoneNumber: this.attributes["recipientNumber"], Message: messageOutput};
+        SNS.publish(params, function(err,data){});
+        this.emit(":tellWithCard", speechOutput, "Message Sent To " + this.attributes["recipientName"] + " (" + this.attributes["recipientNumber"] + ")", textOutput, imageObj);
     },
     "AMAZON.CancelIntent": function()
     {
@@ -568,6 +578,12 @@ var languageStrings = {
             "LOVE_MESSAGE": [           "I was just thinking about you, and wanted you to know I love you!     Love, XXXXXXXXXX",
                                         "I can't get you out of my head!  I love you so much!     Love, XXXXXXXXXX",
                                         "You are the best thing that ever happened to me.  I'm so glad I met you.  I love you.     Love, XXXXXXXXXX"],
+            "HELLO_MESSAGE": [          "Just wanted to drop you a line to say HI! From, XXXXXXXXXX",
+                                        "Hello!  Hope you're having a great day! From, XXXXXXXXXX",
+                                        "Just a quick message to say HELLO! From, XXXXXXXXXX"],
+            "MISSYOU_MESSAGE": [        "It's been way too long!  When are we getting together again?  Miss you! From, XXXXXXXXXX",
+                                        "Just missing you a bit today.  Hope all is well! From, XXXXXXXXXX",
+                                        "Let's get together sometime soon!  I miss you! From, XXXXXXXXXX"],
             "HELP_MESSAGE" : [          "This skill helps you send messages to your friends and family.  I will first ask you for a name and phone number.  Then I will ask you about the message you want to send.  Would you like to start over, or quit?",
                                         "Would you like to start over, or quit?"],
             "UNHANDLED_MESSAGE" : [     "Hmm.  I seem to have made a mistake, and I need to start over.  Would you like to start over, or quit?",
@@ -609,3 +625,9 @@ var reminderImageUrlLarge = "https://raw.githubusercontent.com/jeffblankenburg/S
 
 var loveImageUrlSmall = "https://raw.githubusercontent.com/jeffblankenburg/SendToFriend/master/images/love720x400.png";
 var loveImageUrlLarge = "https://raw.githubusercontent.com/jeffblankenburg/SendToFriend/master/images/love1200x800.png";
+
+var missYouImageUrlSmall = "https://raw.githubusercontent.com/jeffblankenburg/SendToFriend/master/images/love720x400.png";
+var missYouImageUrlLarge = "https://raw.githubusercontent.com/jeffblankenburg/SendToFriend/master/images/love1200x800.png";
+
+var helloImageUrlSmall = "https://raw.githubusercontent.com/jeffblankenburg/SendToFriend/master/images/love720x400.png";
+var helloImageUrlLarge = "https://raw.githubusercontent.com/jeffblankenburg/SendToFriend/master/images/love1200x800.png";
