@@ -94,7 +94,7 @@ Skills are managed through the Amazon Developer Portal. You’ll link the Lambda
 
 8.  For the "Enter Type" box, type the word "noun."  For the "Enter Values" box, [copy the contents of this giant list of nouns](https://github.com/jeffblankenburg/SendToFriend/blob/master/speechAssets/noun_customslot.txt).  You can always add more to this list if there are words you want to support.
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/adding-slot-type._TTH_.png)
-    Make sure to click Save before moving to the next step.
+    **Make sure to click Save before moving to the next step.**
 
 9.  The next step is to build the utterance list.  This is meant to be a thorough, well-thought-out list of the ways users will try to interact with your skill.  You don't have to get every possible phrase, but it is important to cover a variety of utterances so that the Natural Language Understanding(NLU) engine can best interpret your user's intent.
 
