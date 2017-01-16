@@ -223,17 +223,19 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 
 16. On the "Attach Policy" screen, you are looking for the "AmazonSNSFullAccess" policy.  (Typing SNS in the filter box makes it easy to find.)  Check the box, and click "Attach Policy" at the bottom of the page.  This will apply the SNS policy to your IAM role, making it possible for your skill to send SMS messages using this service.
     ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/attach-policy._TTH_.png)
+
+    **You can close this browser tab when you have completed these steps.**
     
 
 ## Step 3: Add Your Lambda Function to Your Skill
 
 1.  Navigate back to [developer.amazon.com](http://developer.amazon.com) and select your skill from the list. You can select the skill name or the edit button.
  
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/skill-list._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/skill-list._TTH_.png)
 
 2.  Select the Configuration section, and make sure to choose the AWS Lambda ARN region that corresponds to your AWS Lambda function's region.  Add the ARN from the Lambda function you created in the AWS Console earlier. Select the **Lambda ARN (Amazon Resource Name)** radio button. Then, select **“No”** for account linking since we will not be connecting to an external account for this tutorial. Paste the ARN you copied earlier into the Endpoint field. Then select **Next**.
 
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/configuration._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/configuration._TTH_.png)
 
 3.  You will be asked if you want to "Save Global Changes."  This happens because you are changing values that would apply to every version of your skill (in every language.)  You can click "Yes, Apply" to complete this step.
 
@@ -243,19 +245,19 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 
 ## Step 4: Testing Your Skill
 
-1.  In the Test area, we are going to enter a sample utterance in the service simulator section and see how Alexa will respond. In this example, we have called the skill ‘Seattle Guide,’ because we will be returning information about the city of Seattle. This is the ‘Invocation Name’ we set up on the Skill Information line in the “Skill Information” section.
+1.  In the Test area, we are going to enter a sample utterance in the service simulator section and see how Alexa will respond. In this example, we have called the skill "Send To Friend." This is the "Invocation Name" we set up on the Skill Information line in the “Skill Information” section.
 
-    * In the Service Simulator, type **‘open Seattle Guide’** and click the **“Ask Seattle Guide”** button.
+    * In the Service Simulator, type **‘open send to friend’** and click the **“Ask Send to Friend”** button.
 
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/service-simulator._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/service-simulator._TTH_.png)
 
 2.  You should see the formatted JSON request from the Alexa service and the response coming back from your Lambda function. Verify that you get a correct Lambda response.
   
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/service-simulator-json._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/service-simulator-json._TTH_.png)
  
 3.  (Optional) Testing with your device. This is optional as you can do all the testing in the portal. Assuming your Echo device is on-line (and logged in with the same account as your developer account), you should now see your skill enabled in the Alexa app (under "Your Skills," in the top right corner) and ask Alexa to launch your skill. For more information on testing an Alexa skill and registering an Alexa-enabled device, [check here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/testing-an-alexa-skill).
  
-    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/city-guide/alexa-skill-app._TTH_.png)
+    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/alexa-skill-app._TTH_.png)
 
     Another option for testing your device with your voice is [Echosim.io](http://echosim.io).  This is a virtual Alexa device in your browser, created and hosted by iQuarius Media, that you can speak to and get responses from, just like having a physical device in front of you.
 
