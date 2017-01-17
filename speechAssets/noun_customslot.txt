@@ -582,7 +582,6 @@ campanile
 can
 canada
 canal
-cancel
 cancer
 candelabra
 candidate
@@ -1879,7 +1878,6 @@ hell
 hellcat
 helmet
 helo
-help
 hemp
 hen
 herb
@@ -3760,8 +3758,6 @@ stomach
 stone
 stonework
 stool
-stop
-stopsign
 stopwatch
 storage
 store

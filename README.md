@@ -287,6 +287,7 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
 4.  To clarify each of the response types, here's a quick guide:
     * **USER_REQUEST**: This welcomes the user to the skill, and prompts them for their first name.
     * **USER_CONFIRMATION**: This message repeats the user's name back to them, to make sure that she heard it correctly.
+    * **USER_MISUNDERSTANDING**: If Alexa got the user's name wrong, she apologizes and asks for their name again.
     * **NAME_REQUEST**: This repeats the user's name, and asks for the name of the person they are sending a message to.
     * **NAME_CONFIRMATION**: This repeats the intended recipient's name back to the user, asking for confirmation that Alexa heard it correctly.
     * **NAME_MISUNDERSTANDING**: If Alexa got the name wrong, she apologizes, and then asks for the name again.
@@ -294,7 +295,9 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
     * **PHONE_CONFIRMATION**: Alexa repeats the phone number back to the user, and confirms that it is correct.
     * **PHONE_MISUNDERSTANDING**: When a user provides a value that is not 10 digits (the format of a US-based mobile phone number), she repeats the number, and asks the user to say the number again.
     * **PHONE_RETRY**: If the user indicates that the phone number was received incorrectly, Alexa apologizes and asks for it again.
+    * **MESSAGE_TYPE_REQUEST**: This indicates the types of messages that your skill can send, and asks the user what kind they would like to create.
     * **MESSAGE_SENT**: This is confirmation to the user that a message has been sent to their intended user.  This is paired with an option from one of the next four categories that the user selected.
+    * **REMINDER_REQUEST**: When the user chooses a reminder message, they get to indicate what the reminder is about.  This asks them for that value.
     * **REMINDER_MESSAGE**: These are messages meant to remind the recipient about something that the user indicated.  This uses the data from our custom slot we called "noun" earlier.
     * **LOVE_MESSAGE**: These are messages to communicate that the user was thinking about someone they love.
     * **MISSYOU_MESSAGE**: These are messages to communicated that the user misses the recipient.
@@ -302,10 +305,12 @@ AWS Lambda lets you run code without provisioning or managing servers. The free 
     * **HELP_MESSAGE**: This is message the user will hear when they ask for help.  It tells them what they can do, and prompts them to say "Start Over" or "Quit."
     * **UNHANDLED_MESSAGE**: If the user somehow tries something that isn't handled, this is the message they will receive.  Similar to help, it asks them to "Start Over" or "Quit."
     * **STOP_MESSAGE**: When a user indicates that they want our skill to stop, this should be a very brief message saying goodbye.
+    * **APP_GOODBYE**: This is a final message as your app closes.  It's meant to remind the user about which skill they are using.
 
 5. You will definitely notice that some of the responses have "XXXXXXXXXX" or "YYYYYYYYYY" in them.  We built this as a way to easily collect all of your strings in one place, but also insert some of the data the user provides into those strings.  For example, one of the USER_CONFIRMATION strings is "Perfect.  I heard your name as XXXXXXXXXX.  Is that right?"  The code earlier in our Lambda function will look for a string of 10 Xs and replace them with the name that the user provides to us.  The same goes for phone numbers, recipient names, etc.
 
 6. The final change you need to make relates to the cards that get created when a user sends a message.  Each of these cards has two images associated with it.  You need one image that is 1200x800 pixels, and one that is 720x400 for each message type.  These images also need to be hosted somewhere on the internet where they can be publicly available.  You can change each of these images in the variables immediately below all of the response strings you've been working on.
+
    ![](https://images-na.ssl-images-amazon.com/images/G/01/mobile-apps/dex/alexa/alexa-skills-kit/tutorials/messaging/images._TTH_.png)
 
 7. Once you have successfully updated all of your strings, scroll back to the top of the page and select “Save”.
